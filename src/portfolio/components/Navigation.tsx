@@ -1,7 +1,6 @@
 import { useState } from "react";
 
 interface NavigationProps {
-  activeScene: number;
   onNavigate: (index: number) => void;
   currentSection: number;
 }
@@ -16,7 +15,7 @@ const scenes = [
   { label: "Contact", number: "07" },
 ];
 
-export default function Navigation({ activeScene, onNavigate, currentSection }: NavigationProps) {
+export default function Navigation({ onNavigate, currentSection }: NavigationProps) {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const handleNavClick = (index: number) => {
@@ -65,7 +64,7 @@ export default function Navigation({ activeScene, onNavigate, currentSection }: 
               key={scene.label}
               onClick={() => handleNavClick(i)}
               className={`text-2xl font-bold tracking-tight transition-all duration-300 ${
-                activeScene === i ? "text-electric" : "text-ink-400"
+                currentSection === i ? "text-electric" : "text-ink-400"
               }`}
             >
               <span className="text-xs font-mono text-ink-600 mr-3">{scene.number}</span>

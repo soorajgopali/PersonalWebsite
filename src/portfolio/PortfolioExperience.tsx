@@ -125,7 +125,7 @@ export default function PortfolioExperience() {
       <LoadingScreen progress={loadingProgress} complete={loadingComplete} />
 
       {/* Navigation */}
-      <Navigation activeScene={activeScene} onNavigate={handleNavigate} currentSection={currentSection} />
+      <Navigation onNavigate={handleNavigate} currentSection={currentSection} />
 
       {/* Progress indicator */}
       <div className="fixed bottom-6 left-6 z-50">

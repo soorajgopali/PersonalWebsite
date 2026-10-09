@@ -58,6 +58,27 @@ export function useSectionScroll(sectionCount: number, reducedMotion: boolean) {
     return () => mediaQuery.removeEventListener("change", updateSectionScroll);
   }, []);
 
+  useEffect(() => {
+    if (sectionScrollEnabled) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visibleSection = entries.find((entry) => entry.isIntersecting);
+        if (!visibleSection) return;
+
+        const index = sectionRefs.current.indexOf(visibleSection.target as HTMLElement);
+        if (index !== -1) setCurrentSection(index);
+      },
+      { rootMargin: "-45% 0px -45% 0px" }
+    );
+
+    sectionRefs.current.forEach((section) => {
+      if (section) observer.observe(section);
+    });
+
+    return () => observer.disconnect();
+  }, [sectionCount, sectionScrollEnabled]);
+
   // Wheel handler
   useEffect(() => {
     if (!sectionScrollEnabled) return;
