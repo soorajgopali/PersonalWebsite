@@ -9,7 +9,7 @@ export const personalInfo = {
   email: "surajgopali100@gmail.com",
   phone: "+977 9819258423",
   github: "https://github.com/soorajgopali",
-  linkedin: null,
+  linkedin: "https://www.linkedin.com/in/surajg3",
   cvPath: "/Suraj_GopaliCV.pdf",
   availableForWork: true,
   // Replace this image with your actual profile photo

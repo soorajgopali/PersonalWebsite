@@ -130,6 +130,16 @@ export default function WebGLFallback() {
                 GitHub
               </a>
             )}
+            {personalInfo.linkedin && (
+              <a
+                href={personalInfo.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-8 py-4 border border-ink-700 text-ink-200 font-medium text-sm"
+              >
+                LinkedIn
+              </a>
+            )}
           </div>
         </div>
       </section>

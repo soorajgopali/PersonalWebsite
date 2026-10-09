@@ -562,6 +562,16 @@ export default function PortfolioExperience() {
                     GitHub
                   </a>
                 )}
+                {personalInfo.linkedin && (
+                  <a
+                    href={personalInfo.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-3 px-8 py-4 border border-ink-700 text-ink-200 font-medium text-sm hover:border-electric/50 hover:text-electric transition-all duration-300"
+                  >
+                    LinkedIn
+                  </a>
+                )}
               </div>
             </div>
           </div>
@@ -580,6 +590,11 @@ export default function PortfolioExperience() {
               {personalInfo.github && (
                 <a href={personalInfo.github} target="_blank" rel="noopener noreferrer" className="text-ink-500 hover:text-electric text-xs font-mono tracking-wider uppercase transition-colors">
                   GitHub
+                </a>
+              )}
+              {personalInfo.linkedin && (
+                <a href={personalInfo.linkedin} target="_blank" rel="noopener noreferrer" className="text-ink-500 hover:text-electric text-xs font-mono tracking-wider uppercase transition-colors">
+                  LinkedIn
                 </a>
               )}
               <a href={`mailto:${personalInfo.email}`} className="text-ink-500 hover:text-electric text-xs font-mono tracking-wider uppercase transition-colors">
