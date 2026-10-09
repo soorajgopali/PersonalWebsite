@@ -2,6 +2,9 @@ import { useEffect, useRef, useCallback, useState } from "react";
 
 export function useSectionScroll(sectionCount: number, reducedMotion: boolean) {
   const [currentSection, setCurrentSection] = useState(0);
+  const [sectionScrollEnabled, setSectionScrollEnabled] = useState(() =>
+    window.matchMedia("(min-width: 48rem)").matches
+  );
   const isTransitioning = useRef(false);
   const touchStartY = useRef(0);
   const touchStartX = useRef(0);
@@ -45,8 +48,20 @@ export function useSectionScroll(sectionCount: number, reducedMotion: boolean) {
     }
   }, [currentSection, scrollToSection]);
 
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(min-width: 48rem)");
+    const updateSectionScroll = (event: MediaQueryListEvent) => {
+      setSectionScrollEnabled(event.matches);
+    };
+
+    mediaQuery.addEventListener("change", updateSectionScroll);
+    return () => mediaQuery.removeEventListener("change", updateSectionScroll);
+  }, []);
+
   // Wheel handler
   useEffect(() => {
+    if (!sectionScrollEnabled) return;
+
     const handleWheel = (e: WheelEvent) => {
       const atLastSection = currentSection >= sectionCount - 1;
       const atFirstSection = currentSection <= 0;
@@ -71,10 +86,12 @@ export function useSectionScroll(sectionCount: number, reducedMotion: boolean) {
 
     window.addEventListener("wheel", handleWheel, { passive: false });
     return () => window.removeEventListener("wheel", handleWheel);
-  }, [goNext, goPrev]);
+  }, [goNext, goPrev, sectionScrollEnabled]);
 
   // Touch handler
   useEffect(() => {
+    if (!sectionScrollEnabled) return;
+
     const handleTouchStart = (e: TouchEvent) => {
       touchStartY.current = e.touches[0].clientY;
       touchStartX.current = e.touches[0].clientX;
@@ -110,10 +127,12 @@ export function useSectionScroll(sectionCount: number, reducedMotion: boolean) {
       window.removeEventListener("touchstart", handleTouchStart);
       window.removeEventListener("touchend", handleTouchEnd);
     };
-  }, [goNext, goPrev, currentSection, sectionCount]);
+  }, [goNext, goPrev, currentSection, sectionCount, sectionScrollEnabled]);
 
   // Keyboard handler
   useEffect(() => {
+    if (!sectionScrollEnabled) return;
+
     const handleKeyDown = (e: KeyboardEvent) => {
       if (isTransitioning.current) return;
 
@@ -142,7 +161,7 @@ export function useSectionScroll(sectionCount: number, reducedMotion: boolean) {
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [goNext, goPrev, scrollToSection, sectionCount]);
+  }, [goNext, goPrev, scrollToSection, sectionCount, sectionScrollEnabled]);
 
   // Set initial section on mount
   useEffect(() => {
@@ -158,5 +177,6 @@ export function useSectionScroll(sectionCount: number, reducedMotion: boolean) {
     goPrev,
     sectionRefs,
     isTransitioning,
+    sectionScrollEnabled,
   };
 }

@@ -25,7 +25,7 @@ export default function PortfolioExperience() {
   const reducedMotion = useReducedMotion();
   const webglSupported = useWebGLSupport();
   const { progress: loadingProgress, complete: loadingComplete } = useLoadingProgress();
-  const { currentSection, scrollToSection, sectionRefs } = useSectionScroll(SCENE_COUNT, reducedMotion);
+  const { currentSection, scrollToSection, sectionRefs, sectionScrollEnabled } = useSectionScroll(SCENE_COUNT, reducedMotion);
 
   const [introPhase, setIntroPhase] = useState<"loading" | "profile" | "transition" | "complete">("loading");
   const [sceneOpacity, setSceneOpacity] = useState<number[]>(Array(SCENE_COUNT).fill(0));
@@ -65,6 +65,12 @@ export default function PortfolioExperience() {
 
   // Scene visibility based on current section
   useEffect(() => {
+    if (!sectionScrollEnabled) {
+      setSceneOpacity(Array(SCENE_COUNT).fill(1));
+      setSceneTransforms(Array(SCENE_COUNT).fill("translateY(0)"));
+      return;
+    }
+
     const newOpacities: number[] = [];
     const newTransforms: string[] = [];
 
@@ -89,7 +95,7 @@ export default function PortfolioExperience() {
 
     setSceneOpacity(newOpacities);
     setSceneTransforms(newTransforms);
-  }, [currentSection]);
+  }, [currentSection, sectionScrollEnabled]);
 
   const handleNavigate = useCallback((index: number) => {
     scrollToSection(index);
@@ -129,7 +135,7 @@ export default function PortfolioExperience() {
       </div>
 
       {/* SCENE 01 - INTRO: Profile image beside name, no space above */}
-      <section id="scene-0" ref={(el) => { sectionRefs.current[0] = el; }} className="relative h-screen flex items-start justify-center overflow-hidden pt-24">
+      <section id="scene-0" ref={(el) => { sectionRefs.current[0] = el; }} className="relative min-h-screen md:h-screen flex items-start justify-center md:overflow-hidden pt-24">
         {/* Decorative elements */}
         <div className="absolute top-20 left-8 w-32 h-32 border border-ink-800/30 rotate-12 hidden lg:block" />
         <div className="absolute bottom-32 right-12 w-24 h-24 border border-electric/20 rotate-45 hidden lg:block" />
@@ -189,7 +195,7 @@ export default function PortfolioExperience() {
       </section>
 
       {/* SCENE 02 - ABOUT */}
-      <section id="scene-1" ref={(el) => { sectionRefs.current[1] = el; }} className="relative h-screen flex items-center">
+      <section id="scene-1" ref={(el) => { sectionRefs.current[1] = el; }} className="relative min-h-screen md:h-screen flex items-center">
         <div className="relative z-10 w-full max-w-6xl mx-auto px-6 lg:px-12">
           <div
             className="transition-all duration-700"
@@ -260,7 +266,7 @@ export default function PortfolioExperience() {
       </section>
 
       {/* SCENE 03 - EXPERIENCE */}
-      <section id="scene-2" ref={(el) => { sectionRefs.current[2] = el; }} className="relative h-screen flex items-center">
+      <section id="scene-2" ref={(el) => { sectionRefs.current[2] = el; }} className="relative min-h-screen md:h-screen flex items-center">
         <div className="relative z-10 w-full max-w-6xl mx-auto px-6 lg:px-12">
           <div
             className="transition-all duration-700"
@@ -322,7 +328,7 @@ export default function PortfolioExperience() {
       </section>
 
       {/* SCENE 04 - TECHNOLOGY */}
-      <section id="scene-3" ref={(el) => { sectionRefs.current[3] = el; }} className="relative h-screen flex items-center">
+      <section id="scene-3" ref={(el) => { sectionRefs.current[3] = el; }} className="relative min-h-screen md:h-screen flex items-center">
         <div className="relative z-10 w-full max-w-6xl mx-auto px-6 lg:px-12">
           <div
             className="transition-all duration-700"
@@ -385,7 +391,7 @@ export default function PortfolioExperience() {
       </section>
 
       {/* SCENE 05 - PROJECTS */}
-      <section id="scene-4" ref={(el) => { sectionRefs.current[4] = el; }} className="relative h-screen flex items-center">
+      <section id="scene-4" ref={(el) => { sectionRefs.current[4] = el; }} className="relative min-h-screen md:h-screen flex items-center">
         <div className="relative z-10 w-full max-w-6xl mx-auto px-6 lg:px-12">
           <div
             className="transition-all duration-700"
@@ -463,7 +469,7 @@ export default function PortfolioExperience() {
       </section>
 
       {/* SCENE 06 - EDUCATION */}
-      <section id="scene-5" ref={(el) => { sectionRefs.current[5] = el; }} className="relative h-screen flex items-center">
+      <section id="scene-5" ref={(el) => { sectionRefs.current[5] = el; }} className="relative min-h-screen md:h-screen flex items-center">
         <div className="relative z-10 w-full max-w-6xl mx-auto px-6 lg:px-12">
           <div
             className="transition-all duration-700"
@@ -508,7 +514,7 @@ export default function PortfolioExperience() {
       </section>
 
       {/* SCENE 07 - CONTACT */}
-      <section id="scene-6" ref={(el) => { sectionRefs.current[6] = el; }} className="relative h-screen flex items-center justify-center">
+      <section id="scene-6" ref={(el) => { sectionRefs.current[6] = el; }} className="relative min-h-screen md:h-screen flex items-center justify-center">
         <div className="relative z-10 w-full max-w-4xl mx-auto px-6 lg:px-12">
           <div
             className="transition-all duration-700"
